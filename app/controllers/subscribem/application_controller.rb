@@ -9,7 +9,8 @@ module Subscribem
   		end
   	end
   	helper_method :current_account
-  	def current_user
+  	
+    def current_user
   		if user_signed_in?
   			@current_user ||= begin
   				user_id = env['warden'].user(scope: :user)
@@ -18,15 +19,22 @@ module Subscribem
   		end
   	end
   	helper_method :current_user
-  	def user_signed_in?
+  	
+    def user_signed_in?
   		env['warden'].authenticated?(:user)
   	end
   	helper_method :user_signed_in?
+    
     def authenticate_user!
       unless user_signed_in?
         flash[:notice] = "Please sign in."
         redirect_to '/sign_in'
       end
+    end
+
+    def force_authentication!(account, user)
+      env['warden'].set_user(user.id, scope: :user)
+      env['warden'].set_user(account.id, scope: :account)
     end
   end
 end
