@@ -26,7 +26,7 @@ end
 describe Subscribem::Account do
 	
 	def schema_exists?(account)
-		query = %Q(SELECT nspname FROM pg_namespace WHERE nspname ='#{account.subdomain}')
+		query = %Q{SELECT nspname FROM pg_namespace WHERE nspname ='#{account.subdomain}'}
 		result = ActiveRecord::Base.connection.select_value(query)
 		result.present?
 	end
