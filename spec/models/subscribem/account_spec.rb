@@ -12,6 +12,7 @@ feature Subscribem::Account do
 			}
 		}
 		account = Subscribem::Account.create_with_owner(params)
+		account.create_schema
 		account.should be_persisted
 		account.users.first.should == account.owner
 	end

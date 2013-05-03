@@ -16,8 +16,9 @@ feature 'Accounts' do
 		page.current_url.should == "http://test.example.com/"
 	end
 	scenario "cannot create and account with an already used subdomain" do
-		Subscribem::Account.create!(subdomain: 'test', name: 'test')
-		visit subscribem.root_path
+		account = Subscribem::Account.create!(subdomain: 'test', name: 'test')
+		account.create_schema
+		visit subscribem.root_url
 		click_link 'Account Sign Up'
 		fill_in 'Name', with: 'Test'
 		fill_in 'Subdomain', with: 'test'

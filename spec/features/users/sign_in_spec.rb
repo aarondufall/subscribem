@@ -1,7 +1,7 @@
 require 'spec_helper'
 	feature 'User sign in' do
 	extend SubdomainHelpers
-	let!(:account) { FactoryGirl.create(:account) }
+	let!(:account) { FactoryGirl.create(:account_with_schema) }
 	let(:sign_in_url) { "http://#{account.subdomain}.example.com/sign_in" }
 	let(:root_url) { "http://#{account.subdomain}.example.com/"}
 
@@ -10,7 +10,7 @@ require 'spec_helper'
 		before 	{ Capybara.default_host = subdomain_url }
 		after 	{ Capybara.default_host = "http://example.com" }
 		scenario "signs in as an account owner successfully" do
-			visit subscribem.root_path
+			visit subscribem.root_url(subdomain: account.subdomain)
 			page.current_url.should == sign_in_url
 			fill_in "Email", with: account.owner.email
 			fill_in "Password", with: "password"
@@ -43,7 +43,7 @@ require 'spec_helper'
 	end
 
 	it "cannot sign in if not part of this subdomain" do
-		other_account = FactoryGirl.create(:account)
+		other_account = FactoryGirl.create(:account_with_schema)
 		visit subscribem.root_url(subdomain: account.subdomain)
 		page.current_url.should == sign_in_url
 		page.should have_content("Please sign in.")
