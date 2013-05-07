@@ -10,9 +10,7 @@
 	<% flash.each do |k,v| %>
 		<div class='flash <%= k %>'><%= v %></div>
 	<% end %>
-	<% if current_user %>
-		Signed in as <%= current_user.email %>
-	<% end %>
+	<%= render partial: "subscribem/login" %>
 <%= yield %>
 
 </body>
