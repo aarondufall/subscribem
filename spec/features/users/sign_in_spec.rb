@@ -5,10 +5,7 @@ require 'spec_helper'
 	let(:sign_in_url) { "http://#{account.subdomain}.example.com/sign_in" }
 	let(:root_url) { "http://#{account.subdomain}.example.com/"}
 
-	context "within a subdomain" do
-		let(:subdomain_url) { "http://#{account.subdomain}.example.com"}
-		before 	{ Capybara.default_host = subdomain_url }
-		after 	{ Capybara.default_host = "http://example.com" }
+	within_account_subdomain do
 		scenario "signs in as an account owner successfully" do
 			visit subscribem.root_url(subdomain: account.subdomain)
 			page.current_url.should == sign_in_url
