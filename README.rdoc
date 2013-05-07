@@ -2,42 +2,44 @@
 
 This project rocks and uses MIT-LICENSE.
 
-gem 'subscribem', :path => "../subscribem"
+Install
+
+	gem 'subscribem', :path => "../subscribem"
 
 And then we’ll need to mount it within the application’s config/routes.rb file:
 
-mount Subscribem::Engine, :at => "/"
+	mount Subscribem::Engine, :at => "/"
 
 Let’s change the database.yml for this application to this:
 
-development:
-  adapter: postgresql
-  database: hosted_forums_development
-  min_messages: warning
-test:
-  adapter: postgresql
-  database: hosted_forums_test
-  min_messages: warning
+	development:
+	  adapter: postgresql
+	  database: hosted_forums_development
+	  min_messages: warning
+	test:
+	  adapter: postgresql
+	  database: hosted_forums_test
+	  min_messages: warning
 
 This will now tell Rails to use the PostgreSQL adapter instead of the SQLite3 adapter to connect to our database. We’ll also need to change the line inside Gemfile which says to use the sqlite3 gem:
 
-gem 'sqlite3'
+	gem 'sqlite3'
 
 Replacing it with this line: 
 
-gem 'pg'
+	gem 'pg'
 
 We can then create the databases that our application will need by running bundle exec rake db:create:all. We can then copy over the migrations from the Subscribem engine and run them inside our application by running these two commands:
 The forum application
 
-bundle exec rake railties:install:migrations
-bundle exec rake db:migrate
+	bundle exec rake railties:install:migrations
+	bundle exec rake db:migrate
 
 We can validate that these migrations are copied and run by opening a rails console session and then doing a simple query, like this:
 
-irb(main):001:0> Subscribem::User.first
-=> nil
+	irb(main):001:0> Subscribem::User.first
+	=> nil
 
 If these tables weren’t added to our database, we would be told that PostgreSQL couldn’t find the subscribem_users relation in our database.
 
-With Subscribem now set up correctly, it’s time to bring in the Forem gem too.
+Subscribem is now set up correctly
