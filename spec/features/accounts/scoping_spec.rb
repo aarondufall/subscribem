@@ -1,6 +1,8 @@
 require 'spec_helper'
-
+require 'subscribem/testing_support/factories/account_factory'
+require 'subscribem/testing_support/authentication_helpers'
 describe "account scoping" do
+	include Subscribem::TestingSupport::AuthenticationHelpers
 	let!(:account_a) { FactoryGirl.create(:account_with_schema) }
 	let!(:account_b) { FactoryGirl.create(:account_with_schema) }
 	before do
